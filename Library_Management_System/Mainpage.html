@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book World</title>
+  <link rel="stylesheet" href="MainPage.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <span class="book">Book</span><span class="world">World</span>
+      </div>
+      
+      <div class="container">
+        <form action="searchresults.html" method="GET" class="search-form">
+          <input type="text" name="search" placeholder="🔎Search for books..." class="search-bar" autocomplete="off">
+        </form>
+      </div>
+
+      <!-- Cart Logo -->
+      <div class="cart-icon">
+        <a href="cart.html">
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+      </div>
+  </header>
+
+  <div class="hero">
+    <h1>Best Place to Find Your <span>Favorite Books</span></h1>
+    <p>Discover amazing books, read online, and enhance your knowledge and imagination.</p>
+    <a href="allbooks.html" class="explore-btn">Explore Now</a>
+  </div>
+
+  <h2 class="section-title">For You</h2>
+  <div class="carousel">
+    <div class="carousel-inner">
+      
+    </div>
+  </div>
+
+  <section class="book-types">
+    <h2>Browse by <span>Book Types</span></h2>
+    <div class="type-cards">
+      <div class="card">
+        <a href="fictionpage.html">
+          <img src="Fiction.png" alt="Fiction">
+          <h3>Fiction</h3>
+        </a>
+      </div>
+      <div class="card">
+        <a href="historypage.html">
+          <img src="History.png" alt="History">
+          <h3>History</h3>
+        </a>
+      </div>
+      <div class="card">
+        <a href="thrillerpage.html">
+          <img src="Thriller.png" alt="Thriller">
+          <h3>Thriller</h3>
+        </a>
+      </div>
+      <div class="card">
+        <a href="sciencepage.html">
+          <img src="Science.png" alt="Science">
+          <h3>Science</h3>
+        </a>
+      </div>
+      <div class="card">
+        <a href="poetrypage.html">
+          <img src="Poetry.png" alt="Poetry">
+          <h3>Poetry</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  
+  <div class="new-arrivals">
+    <h2>New Arrivals</h2>
+    <div class="arrival-cards">
+      
+    </div>
+  </div>
+
+  
+  <section class="about">
+    <h2>About <span>BookWorld</span></h2>
+    <p>BookWorld lets you buy or rent books online, offering seamless library management, diverse genres, and secure, user-friendly transactions for all readers.</p>
+  </section>
+
+  
+  <footer>
+    <p>&copy; BookWorld Library. All Rights Reserved.</p>
+  </footer>
+
+  
+  <script>
+    
+    function addNewBook(newBook) {
+      let books = JSON.parse(localStorage.getItem('books')) || [];
+
+      
+      books.unshift(newBook);
+
+      
+      if (books.length > 6) {
+        books = books.slice(0, 6); 
+      }
+
+      
+      localStorage.setItem('books', JSON.stringify(books));
+    }
+
+    
+    function loadBooks() {
+      let books = JSON.parse(localStorage.getItem('books')) || [];
+
+      
+      const forYouCarousel = document.querySelector('.carousel-inner');
+      const newArrivalsSection = document.querySelector('.arrival-cards');
+
+      
+      forYouCarousel.innerHTML = '';
+      newArrivalsSection.innerHTML = '';
+
+      
+      books.forEach(book => {
+        const bookCardForYou = `
+          <a href="book-details.html?title=${encodeURIComponent(book.title)}" class="card">
+            <img src="${book.cover}" alt="${book.title}">
+            <h3 class="card-title">${book.title}</h3>
+            <p class="author">By ${book.author}</p>
+          </a>
+        `;
+        forYouCarousel.innerHTML += bookCardForYou;
+      });
+
+      
+      books.slice(0, 6).forEach(book => {
+        const bookCardNewArrivals = `
+          <a href="book-details.html?title=${encodeURIComponent(book.title)}" class="book-card" style="text-decoration: none;">
+            <img src="${book.cover}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p>$${parseFloat(book.price).toFixed(2)}</p>
+          </a>
+        `;
+        newArrivalsSection.innerHTML += bookCardNewArrivals;
+      });
+    }
+
+    
+    window.onload = loadBooks;
+  </script>
+</body>
+</html>

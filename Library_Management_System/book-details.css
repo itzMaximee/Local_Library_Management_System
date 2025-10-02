@@ -1,0 +1,205 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #022547, #a98522);
+    color: #333;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    padding: 20px;
+    font-size: 16px; 
+}
+
+a {
+    color: #0073e6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.main-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 15px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    padding: 80px;
+    width: 150%;
+}
+
+.book-section {
+    display: flex;
+    gap: 40px; 
+    width: 100%; 
+    justify-content: space-between;
+}
+
+.book-image img {
+    width: 250px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.book-info {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.book-title {
+    font-size: 35px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.rating {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #777;
+}
+
+.shipping {
+    color: #4caf50;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.rent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+}
+
+.rent h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.rent ul {
+    list-style: none;
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+.rent li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.rent strong {
+    color: #e6b800;
+    font-size: 16px;
+}
+
+.add-to-cart {
+    background-color: #b88c24;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%;
+    margin: 15px 0;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart:hover {
+    background-color: #a1771c;
+}
+
+.wishlist {
+    display: inline-block;
+    margin-top: 10px;
+    color: #0073e6;
+    font-size: 16px;
+}
+
+.checkout-section {
+    right: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.checkout-btn {
+    background-color: #a98702;
+    color: white;
+    padding: 15px;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.checkout-btn:hover {
+    background-color: #8b7401;
+}
+
+.cart-item {
+    margin-bottom: 20px;
+}
+
+.cart-item img {
+    width: 50px;
+    height: auto;
+    margin-right: 15px;
+}
+
+.back-btn:hover {
+    background-color: #8b7401;
+}
+        .back-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            font-size: 14px;
+            background-color: #a98802;
+            border: 3px solid #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        /* Styling for the book section */
+        .main-container {
+            position: relative;
+            padding-top: 40px;
+        }
+
+        /* Additional style tweaks if needed for the rest of the content */
+        .checkout-section {
+            margin-top: 20px;
+        }

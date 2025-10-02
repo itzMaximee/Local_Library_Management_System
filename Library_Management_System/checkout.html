@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+    <header>
+        <h1>Checkout</h1>
+    </header>
+
+    <div class="checkout-container">
+        <!-- Book Details Section -->
+        <div id="book-details-section" class="book-card">
+            <!-- Book details will be loaded here dynamically -->
+        </div>
+
+        <div class="purchase-options">
+            <h2>Select Purchase Option</h2>
+            <label>
+                <input type="radio" name="purchase-option" id="rent" value="rent"> Rent
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="purchase-option" id="buy-new" value="buy-new"> Buy New
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="purchase-option" id="buy-used" value="buy-used"> Buy Used
+            </label>
+            <div id="price-details"></div>
+        </div>
+
+        <!-- Address Form -->
+        <div class="address-form">
+            <h2>Shipping Address</h2>
+            <input type="text" id="address" placeholder="Enter your address" required>
+        </div>
+
+        <!-- Payment Method Section -->
+        <div class="payment-method">
+            <h2>Select Payment Method</h2>
+            <label>
+                <input type="radio" name="payment-method" value="credit-card" id="credit-card"> Credit/Debit Card
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="cash-on-delivery" id="cash-on-delivery"> Cash on Delivery
+            </label>
+
+            <!-- Card Details -->
+            <div id="card-details" class="hidden">
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" placeholder="Enter card number">
+        
+                <label for="expiration-date">Expiration Date:</label>
+                <input type="text" id="expiration-date" placeholder="MM/YY">
+        
+                <label for="cvc">CVC:</label>
+                <input type="text" id="cvc" placeholder="Enter CVC">
+            </div>
+        </div>
+
+        <!-- Submit and Home Buttons -->
+        <button onclick="submitOrder()">Submit Order</button>
+        <button onclick="goHome()">Go Home</button>
+    </div>
+
+    <script>
+        function loadCheckoutData() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const bookDetailsSection = document.getElementById('book-details-section');
+            const priceDetails = document.getElementById('price-details');
+
+            if (cart.length > 0) {
+                cart.forEach(book => {
+                    bookDetailsSection.innerHTML += `
+                        <div class="book-item">
+                            <img src="${book.cover}" alt="${book.title}" class="book-image">
+                            <h2>${book.title}</h2>
+                            <p>Author: ${book.author}</p>
+                            <p>Price: $${parseFloat(book.price).toFixed(2)}</p>
+                            <p>Quantity: ${book.quantity}</p>
+                        </div>
+                    `;
+                });
+
+                // Display prices for purchase options
+                document.querySelectorAll('input[name="purchase-option"]').forEach(input => {
+                    input.addEventListener('change', function() {
+                        const selectedOption = this.value;
+                        const rentPrices = {
+                            "35": 17.10,
+                            "60": 20.35,
+                            "90": 22.23,
+                            "162": 24.45
+                        };
+                        
+                        let totalPrice = 0;
+                        let rentPrice = 0;
+                        let totalRentPrice = 0;
+                        let totalBookPrice = 0;
+
+                        // Loop through all books in the cart and calculate total price
+                        cart.forEach(book => {
+                            const bookPrice = parseFloat(book.price);
+                            const bookQuantity = book.quantity;
+
+                            if (selectedOption === 'rent') {
+                                rentPrice = rentPrices["35"];
+                                totalRentPrice += rentPrice * bookQuantity;
+                            } else if (selectedOption === 'buy-new') {
+                                totalBookPrice += bookPrice * bookQuantity;
+                            } else if (selectedOption === 'buy-used') {
+                                totalBookPrice += (bookPrice / 2) * bookQuantity;
+                            }
+                        });
+
+                        // Display the calculated total prices based on the selected option
+                        if (selectedOption === 'rent') {
+                            priceDetails.innerHTML = `Total Rent Price (35 days): $${totalRentPrice.toFixed(2)}`;
+                        } else if (selectedOption === 'buy-new') {
+                            priceDetails.innerHTML = `Total Buy New Price: $${totalBookPrice.toFixed(2)}`;
+                        } else if (selectedOption === 'buy-used') {
+                            priceDetails.innerHTML = `Total Buy Used Price: $${totalBookPrice.toFixed(2)}`;
+                        }
+                    });
+                });
+            } else {
+                bookDetailsSection.innerHTML = '<p>No items in your cart.</p>';
+            }
+        }
+
+        function submitOrder() {
+            const address = document.getElementById('address').value;
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+            const purchaseOption = document.querySelector('input[name="purchase-option"]:checked').value;
+
+            if (!address) {
+                alert('Please enter your address!');
+                return;
+            }
+
+            if (paymentMethod === 'credit-card') {
+                const cardNumber = document.getElementById('card-number').value;
+                const cardExpiry = document.getElementById('expiration-date').value;
+                const cardCvc = document.getElementById('cvc').value;
+
+                if (!cardNumber || !cardExpiry || !cardCvc) {
+                    alert('Please fill out all card details!');
+                    return;
+                }
+            }
+
+            // Retrieve the current user from localStorage
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userName = currentUser ? currentUser.username : 'Guest';
+
+            // Get cart details
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Create the sales data
+            const saleData = {
+                user: userName,
+                books: cart.map(book => ({
+                    title: book.title,
+                    author: book.author,
+                    price: book.price,
+                    quantity: book.quantity,
+                    cover: book.cover
+                })),
+                totalPrice: calculateTotalPrice(cart, purchaseOption)
+            };
+
+            // Store the sales data in localStorage
+            const sales = JSON.parse(localStorage.getItem('sales')) || [];
+            sales.push(saleData);
+            localStorage.setItem('sales', JSON.stringify(sales));
+
+            alert('Order Submitted!');
+            localStorage.removeItem('cart');
+            window.location.href = 'Mainpage.html';
+        }
+
+        // Calculate total price based on purchase option
+        function calculateTotalPrice(cart, purchaseOption) {
+            const rentPrices = {
+                "35": 17.10,
+                "60": 20.35,
+                "90": 22.23,
+                "162": 24.45
+            };
+            let totalPrice = 0;
+            
+            cart.forEach(book => {
+                const bookPrice = parseFloat(book.price);
+                const bookQuantity = book.quantity;
+
+                if (purchaseOption === 'rent') {
+                    totalPrice += rentPrices["35"] * bookQuantity;
+                } else if (purchaseOption === 'buy-new') {
+                    totalPrice += bookPrice * bookQuantity;
+                } else if (purchaseOption === 'buy-used') {
+                    totalPrice += (bookPrice / 2) * bookQuantity;
+                }
+            });
+
+            return totalPrice;
+        }
+
+        function goHome() {
+            window.location.href = 'Mainpage.html';
+        }
+
+        // Payment method change event listener
+        document.querySelectorAll('input[name="payment-method"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const cardDetails = document.getElementById('card-details');
+                if (this.value === 'credit-card') {
+                    cardDetails.classList.remove('hidden');
+                } else {
+                    cardDetails.classList.add('hidden');
+                }
+            });
+        });
+
+        window.onload = loadCheckoutData;
+    </script>
+</body>
+</html>

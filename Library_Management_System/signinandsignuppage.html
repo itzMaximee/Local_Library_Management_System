@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signin</title>
+    <link href="signinandsignuppage.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <a href="Mainpage.html">
+                <img alt="Logo" class="logo" src="https://ik.imagekit.io/Maxime/world-globe-earth-planet-book-620-Photoroom.png?updatedAt=1734265285219" />
+            </a>
+            
+            <h1>Welcome Back <span>!!</span></h1>
+            <p>Please enter your credentials to log in</p>
+            
+            
+            <input id="signin-username" class="signin-input" placeholder="Username" type="text" />
+            <input id="signin-password" class="signin-input" placeholder="Password" type="password" />
+            
+            <button class="btn btn-signin" onclick="signIn()">SIGN IN</button>
+            <script src="auth.js"></script>
+
+            <div class="forgot-password">
+                <a href="resetpasswordpage.html">Forgot password?</a>
+            </div>
+        </div>
+        <div class="right">
+            <a href="Mainpage.html">
+                <img alt="Logo" class="logo" src="https://ik.imagekit.io/Maxime/world-globe-earth-planet-book-620-Photoroom.png?updatedAt=1734265285219" />
+            </a>
+            <h1>BookWorld</h1>
+            <p>LIBRARY</p>
+            <p>New to our platform? Sign Up now.</p>
+            <a href="signuppage.html" class="btn btn-signup" style="text-decoration: none; color: white;">SIGN UP</a>
+        </div>
+    </div>
+    
+</body>
+</html>

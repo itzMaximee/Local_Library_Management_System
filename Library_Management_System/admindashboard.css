@@ -1,0 +1,59 @@
+
+#stats-info h4 {
+    font-size: 2em; 
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+#total-books, #total-authors {
+    font-size: 1em; 
+    color: #000000; 
+}
+
+.author-card h5 {
+    font-size: 1.5em; 
+    color: #2c3e50;
+    margin-top: 10px;
+}
+
+.book-card h5 {
+    font-size: 1em;
+    color: #3498db;
+}
+
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.book-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.author-card {
+    margin-bottom: 40px; 
+}
+
+
+#authors-container {
+    margin-top: 20px;
+}

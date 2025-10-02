@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiction Page</title>
+    <link rel="stylesheet" href="fictionpage.css">
+    <!-- Add Font Awesome CDN for cart icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <header>
+    <nav>
+        <div class="logo">
+            <a href="Mainpage.html" style="text-decoration: none;" class="book">
+                <span class="book">Book</span><span class="world">World</span>
+            </a>
+        </div>
+        <div class="container">
+            <form action="searchresults.html" method="GET" class="search-form">
+                <input type="text" name="search" placeholder="🔎Search for books..." class="search-bar" autocomplete="off">
+            </form>
+        </div>
+        <!-- Cart Icon Section -->
+        <div class="cart-icon">
+            <a href="cart.html">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+        </div>
+    </nav>
+  </header>
+
+  <section class="fiction-collections">
+    <h2>Fiction</h2>
+
+    <div class="book-grid" id="fiction-books-list">
+      
+    </div>
+  </section>
+
+  <script>
+      function loadBooks() {
+          const books = JSON.parse(localStorage.getItem('books')) || [];
+          const fictionBooks = books.filter(book => book.type === 'Fiction');
+          const fictionBooksList = document.getElementById('fiction-books-list');
+
+          if (fictionBooks.length === 0) {
+              fictionBooksList.innerHTML = '<p>No books available in this genre.</p>';
+          } else {
+              fictionBooksList.innerHTML = fictionBooks.map(book => `
+                  <a href="book-details.html?title=${encodeURIComponent(book.title)}" class="book-card">
+                      <img src="${book.cover}" alt="${book.title}">
+                      <p class="price">$${parseFloat(book.price).toFixed(2)}</p>
+                      <h3>${book.title}</h3>
+                      <p class="author">By ${book.author}</p>
+                  </a>`).join('');
+          }
+      }
+
+      window.onload = loadBooks;
+  </script>
+</body>
+</html>

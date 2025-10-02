@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    line-height: 1.6;
+    background: linear-gradient(to right, #022547, #a98522);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.cart-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart-container h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#cart-items {
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item img {
+    width: 80px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.cart-item p {
+    margin: 0;
+    padding: 0 10px;
+    color: #333;
+}
+
+.cart-item .remove-btn {
+    padding: 5px 10px;
+    background-color: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart-item .remove-btn:hover {
+    background-color: #d32f2f;
+}
+
+#total {
+    text-align: right;
+    font-size: 24px;
+    margin-top: 20px;
+    color: #333;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #a98702;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #8c7201;
+}
+
+@media (max-width: 768px) {
+    .cart-container {
+        padding: 15px;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-item img {
+        width: 60px;
+        height: 90px;
+    }
+
+    .cart-item p {
+        padding: 0 5px;
+    }
+}

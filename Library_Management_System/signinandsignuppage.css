@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    height: 100vh;
+}
+.container {
+    display: flex;
+    width: 100%;
+}
+.left, .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.left {
+    background-color: #fff;
+}
+.right {
+    background-color: #000;
+    color: #fff;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+.logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+h1 {
+    font-size: 2em;
+    margin: 0;
+}
+h1 span {
+    color: #a98507;
+}
+p {
+    margin: 10px 0;
+}
+
+
+.signin-input {
+    width: 100%;  
+    max-width: 300px;  
+    padding: 15px;  
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    box-sizing: border-box;
+    font-size: 1.2em;  
+}
+
+
+.forgot-password {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 0;
+    text-align: right;
+}
+.forgot-password a {
+    color: #000;
+    text-decoration: none;
+    font-size: 1em;  
+}
+
+
+.btn {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    padding: 15px 20px;  
+    margin: 10px 0;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2em;  
+}
+.btn-signin {
+    background-color: #a98507;
+    color: #fff;
+}
+.btn-signup {
+    background-color: #a98507;
+    color: #fff;
+    border: 1px solid #a98507;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .right {
+        border-radius: 0;
+    }
+}

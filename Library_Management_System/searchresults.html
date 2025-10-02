@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="fictionpage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="Mainpage.html" style="text-decoration: none;">
+                    <span class="book">Book</span><span class="world">World</span>
+                </a>
+            </div>
+            <div class="container">
+                <form action="searchresults.html" method="GET" class="search-form">
+                    <input type="text" name="search" placeholder="🔎Search for books..." class="search-bar" autocomplete="off">
+                </form>
+            </div>
+            <div class="cart-icon">
+                <a href="cart.html">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+        </nav>
+        <section class="search-results">
+            <h2>Search Results</h2>
+            <div class="book-grid" id="search-results-list">
+            </div>
+        </section>
+    </header>
+
+
+    <script>
+        
+        function loadSearchResults() {
+            const searchQuery = new URLSearchParams(window.location.search).get('search');
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+            const searchResultsList = document.getElementById('search-results-list');
+
+            if (!searchQuery) {
+                searchResultsList.innerHTML = '<p>No search query provided.</p>';
+                return;
+            }
+
+            const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
+            if (filteredBooks.length === 0) {
+                searchResultsList.innerHTML = '<p>No books found matching your search.</p>';
+            } else {
+                searchResultsList.innerHTML = filteredBooks.map(book => `
+                    <a href="book-details.html?title=${encodeURIComponent(book.title)}" class="book-card">
+                        <img src="${book.cover}" alt="${book.title}">
+                        <h3>${book.title}</h3>
+                        <p class="author">By ${book.author}</p>
+                        <p class="price">$${parseFloat(book.price).toFixed(2)}</p>
+                    </a>`).join('');
+            }
+        }
+
+        
+        window.onload = loadSearchResults;
+    </script>
+</body>
+</html>

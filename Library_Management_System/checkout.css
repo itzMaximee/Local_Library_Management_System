@@ -1,0 +1,106 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #022547, #a98522);
+    color: #fff;
+    line-height: 1.6;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Checkout Container */
+.checkout-container {
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Book Card */
+.book-card {
+    width: 100%;
+    text-align: center;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.book-card img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.book-card h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.book-card .price {
+    color: #6e3ff9;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Purchase Options */
+.purchase-options,
+.address-form,
+.payment-method {
+    margin-bottom: 20px;
+}
+
+
+
+#card-details label {
+    display: block;
+    margin-top: 10px;
+}
+
+#card-details input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #a98702;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #8b7000;
+}
+
+/* Hidden class */
+.hidden {
+    display: none;
+}

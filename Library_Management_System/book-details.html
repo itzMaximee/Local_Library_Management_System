@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <link rel="stylesheet" href="book-details.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Back Button -->
+        <button class="back-btn" onclick="goBack()">Back</button>
+
+        <!-- Book Details Section -->
+        <div class="book-section" id="book-details">
+            <!-- Book details will be dynamically loaded here -->
+        </div>
+
+        <!-- Cart and Checkout Section -->
+        <div class="checkout-section">
+            <h2>Your Cart</h2>
+            <div id="cart-items">
+                <!-- Cart items will be listed here -->
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to load the book details
+        function loadBookDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookTitle = urlParams.get('title');
+
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+            const book = books.find(book => book.title === bookTitle);
+
+            const bookDetailsContainer = document.getElementById('book-details');
+
+            if (book) {
+                const usedPrice = (book.price / 2).toFixed(2);
+
+                bookDetailsContainer.innerHTML = `
+                    <div class="book-image">
+                        <img src="${book.cover}" alt="${book.title}">
+                    </div>
+                    <div class="book-info">
+                        <h1 class="book-title">${book.title}</h1>
+                        <div class="rating">⭐⭐⭐⭐⭐</div>
+                        <p><strong>Author:</strong> ${book.author}</p>
+                        <p><strong>Category:</strong> ${book.type}</p>
+                        <p><strong>Price:</strong> $${parseFloat(book.price).toFixed(2)}</p>
+                        <p class="shipping">🚚 FREE shipping orders</p>
+                    </div>
+                `;
+
+                bookDetailsContainer.innerHTML += `
+                    <div class="rent">
+                        <h2>Rent</h2>
+                        <ul>
+                            <li><input type="radio" name="rent" checked> 35 days <span> Due Jan 19, 2025 </span> </li> <strong> $17.10</strong>
+                        </ul>
+                        <button class="add-to-cart" onclick="addToCart('${book.title}', ${book.price}, '${book.cover}', '${book.author}', '${book.type}')">Add to Cart</button>
+                        <h3>Buy Used</h3>
+                        <p>From <strong>$${usedPrice} USD</strong></p>
+                        <h3>Buy New</h3>
+                        <p>From <strong>$${parseFloat(book.price).toFixed(2)} USD</strong></p>
+                    </div>
+                `;
+            } else {
+                bookDetailsContainer.innerHTML = '<p>Book not found.</p>';
+            }
+        }
+
+        // Function to add book to the cart
+        function addToCart(title, price, cover, author, type) {
+    console.log("Add to Cart clicked!");  // This will log when the button is clicked.
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log("Current cart before adding:", cart);  // Log the current state of the cart.
+
+    const existingBookIndex = cart.findIndex(book => book.title === title);
+
+    if (existingBookIndex !== -1) {
+        // If the book already exists in the cart, update the quantity.
+        cart[existingBookIndex].quantity += 1;
+        console.log(`${title} found in cart, quantity updated to ${cart[existingBookIndex].quantity}`);
+    } else {
+        // If the book doesn't exist, add it to the cart.
+        cart.push({ title, price, cover, author, type, quantity: 1 });
+        console.log(`${title} added to cart.`);
+    }
+
+    // Save the updated cart back to localStorage.
+    localStorage.setItem('cart', JSON.stringify(cart));
+    console.log("Cart after adding:", cart);  // Log the cart after adding the book.
+
+    alert('Book added to cart!');
+}
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to proceed to the checkout page
+        function checkout() {
+            window.location.href = 'checkout.html';
+        }
+
+        // Load book details when the page loads
+        window.onload = loadBookDetails;
+    </script>
+</body>
+</html>

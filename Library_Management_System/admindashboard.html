@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admindashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Layout and basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(to right, #022547, #a98522);
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ecf0f1;
+            overflow-y: auto;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Sales Page */
+        .sales-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .sales-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .sales-card img {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .btn-edit, .btn-delete {
+            cursor: pointer;
+            margin: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn-edit {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-edit:hover, .btn-delete:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <ul>
+                <li><a href="#" onclick="showSection('books')"><i class="fas fa-book"></i> Book Management</a></li>
+                <li><a href="#" onclick="showSection('authors')"><i class="fas fa-user-edit"></i> Authors</a></li>
+                <li><a href="#" onclick="showSection('sales')"><i class="fas fa-shopping-cart"></i> Sales</a></li>
+                <li><a href="#" onclick="showSection('stats')"><i class="fas fa-chart-bar"></i> Statistics</a></li>
+                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <!-- Sales Management Section -->
+            <section id="sales" class="section active">
+                <h2>Sales Overview</h2>
+                <div id="sales-list" class="sales-grid"></div>
+            </section>
+
+            <!-- Book Management Section -->
+            <section id="books" class="section">
+                <h2>Add a Book</h2>
+                <!-- Add Book Form -->
+                <form id="add-book-form">
+                    <label for="book-title">Book Title:</label>
+                    <input type="text" id="book-title" placeholder="Book Title" required />
+        
+                    <label for="book-author">Author:</label>
+                    <select id="book-author" required></select>
+        
+                    <label for="book-price">Price:</label>
+                    <input type="number" id="book-price" placeholder="Book Price" required step="0.01" />
+        
+                    <label for="book-type">Category:</label>
+                    <select id="book-type" required>
+                        <option value="Fiction">Fiction</option>
+                        <option value="History">History</option>
+                        <option value="Science">Science</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Poetry">Poetry</option>
+                    </select>
+        
+                    <label for="book-cover">Book Cover URL:</label>
+                    <input type="url" id="book-cover" placeholder="Enter Image URL" required />
+        
+                    <button type="button" onclick="addBook()">Add Book</button>
+                </form>
+        
+                <div id="success-message" class="message" style="display: none;">
+                    Book successfully added!
+                </div>
+        
+                <div id="book-list" class="book-grid"></div>
+            </section>
+
+            <!-- Authors Management Section -->
+            <section id="authors" class="section">
+                <h3>Manage Authors</h3>
+                <input id="new-author" placeholder="New Author Name" />
+                <button onclick="addAuthor()">Add Author</button>
+                <div id="author-list" class="book-grid"></div>
+            </section>
+        
+            <!-- Statistics Section -->
+            <section id="stats" class="section">
+                <h3>Statistics</h3>
+                <div id="stats-info">
+                    <h4>Total Books: <span id="total-books">0</span></h4>
+                    <div id="books-container" class="book-grid"></div>
+        
+                    <h4>Total Authors: <span id="total-authors">0</span></h4>
+                    <div id="authors-container"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="admindashboard.js"></script>
+    <script src="auth.js"></script>
+
+    <script>
+        // Function to show the corresponding section
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');  // Hide all sections
+            });
+            document.getElementById(sectionId).classList.add('active');  // Show the selected section
+        }
+
+        // Function to display sales data
+        function displaySales() {
+            const salesData = loadData('sales');
+            const salesList = document.getElementById('sales-list');
+            salesList.innerHTML = salesData.map((sale, index) => `
+                <div class="sales-card">
+                    <h4>User: ${sale.user}</h4>
+                    <div class="purchased-books">
+                        ${sale.books.map(book => `
+                            <div class="book-item">
+                                <img src="${book.cover}" alt="${book.title}" class="book-image">
+                                <h5>${book.title}</h5>
+                                <p>Author: ${book.author}</p>
+                                <p>Price: $${book.price}</p>
+                                <p>Quantity: ${book.quantity}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p>Total Price: $${sale.totalPrice.toFixed(2)}</p>
+                </div>
+            `).join('');
+        }
+
+        // Helper function to load data from localStorage
+        function loadData(key) {
+            return JSON.parse(localStorage.getItem(key)) || [];
+        }
+
+        // Call the function to display sales when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            displaySales();
+        });
+    </script>
+</body>
+</html>
